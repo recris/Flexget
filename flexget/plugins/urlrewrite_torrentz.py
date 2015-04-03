@@ -20,6 +20,7 @@ REPUTATIONS = {  # Maps reputation name to feed address
     'verified': 'feed_verified'
 }
 
+STRIP_REGEXP = re.compile(r"[:']")
 
 class UrlRewriteTorrentz(object):
     """Torrentz urlrewriter."""
@@ -60,7 +61,7 @@ class UrlRewriteTorrentz(object):
         feed = REPUTATIONS[config['reputation']]
         entries = set()
         for search_string in entry.get('search_strings', [entry['title']]):
-            query = normalize_unicode(search_string+config.get('extra_terms', ''))
+            query = normalize_unicode(STRIP_REGEXP.sub('', search_string)+config.get('extra_terms', ''))
             for domain in ['eu', 'me', 'ch', 'in']:
                 # urllib.quote will crash if the unicode string has non ascii characters, so encode in utf-8 beforehand
                 url = 'http://torrentz.%s/%s?q=%s' % (domain, feed, urllib.quote(query.encode('utf-8')))
