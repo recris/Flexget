@@ -86,7 +86,7 @@ class FilterContentFilter(object):
                 for f in entry['torrent'].get_filelist():
                     if not best or f['size'] > best:
                         best = f['size']
-                if (100*float(best)/float(entry['torrent'].size)) < 90:
+                if (100*float(best)/float(entry['torrent'].size)) < 85:
                     log.info('Entry %s does not have a main file, rejecting' % (entry['title']))
                     entry.reject('does not have a main file', remember=True)
                     return True
